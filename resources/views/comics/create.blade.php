@@ -14,7 +14,7 @@
       </div>
       <div class="mb-3">
         <label for="type" class="form-label">Type</label>
-        <input type="text" class="form-control mb-4" id="type" name="type" placeholder="Immagine" required
+        <input type="text" class="form-control mb-4" id="type" name="type" placeholder="Type" required
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

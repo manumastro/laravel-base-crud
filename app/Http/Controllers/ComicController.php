@@ -39,11 +39,15 @@ class ComicController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
         $newComic = new Comic();
-        $newComic->title = $data['title'];
-        $newComic->slug = Str::slug($data['title'], '-');
-        $newComic->image = $data['image'];
-        $newComic->type = $data['type'];
+        // $newComic->title = $data['title'];
+        // $newComic->slug = Str::slug($data['title'], '-');
+        // $newComic->image = $data['image'];
+        // $newComic->type = $data['type'];
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        $newComic->fill($data);
         $newComic->save();
 
         return redirect()->route('Comics.show', $newComic->id);
@@ -59,7 +63,12 @@ class ComicController extends Controller
     public function show($id)
     {
         $comic = Comic::find($id);
-        return view('comics.show', compact('comic'));
+        if($comic){
+            return view('comics.show', compact('comic'));
+        }
+        abort(404, 'Comic non presente nel database');
+
+        
     }
 
     /**
@@ -70,8 +79,12 @@ class ComicController extends Controller
      */
     public function edit($id)
     {
-        //
-    }
+        $comic = Comic::find($id);
+        if($comic){
+            return view('comics.edit', compact('comic'));
+        }
+        abort(404, 'Comic non presente nel database');
+    }   
 
     /**
      * Update the specified resource in storage.
@@ -82,7 +95,17 @@ class ComicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->all(), $comic);
+        //$comic = Comic::find($id);
+        $comic = Comic::find($id);
+
+        $data = $request->all();
+        
+        $data['slug'] = Str::slug($data['title'], '-');
+
+        $comic->update($data);
+
+        return redirect()->route('Comics.show', $comic);
     }
 
     /**
@@ -93,6 +116,11 @@ class ComicController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $comic = Comic::find($id);
+        
+        $comic->delete();
+
+        return redirect()->route('Comics.index');
     }
 }

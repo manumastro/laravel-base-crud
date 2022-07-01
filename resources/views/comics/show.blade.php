@@ -4,12 +4,12 @@
   <div class="container">
     <h1 class="mb-4">{{ $comic->title }}</h1>
 
-    <a href="#" class="btn btn-primary me-4">EDIT</a>
+    <a href="{{ route('Comics.edit', $comic) }}" class="btn btn-primary me-4">EDIT</a>
     <span class="bg-info badge text-bg-info">{{ $comic->type }}</span>
 
     <div class="row py-5">
       <div class="col-6">
-        <img src="{{ $comic->image }}" alt="{{ $comic->title }}">
+        <img class="w-25" src="{{ $comic->image }}" alt="{{ $comic->title }}">
       </div>
     </div>
 
