@@ -38,6 +38,26 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate(
+            [
+                'title' => 'required|max:50|min:5',
+                'image' => 'required|max:255|min:10',
+                'type' => 'required|max:25|min:3',
+            ],
+            [
+                'title.required' => 'Il campo titolo è obbligatorio',
+                'title.max' => 'Il campo titolo deve avere al massimo :max caratteri',
+                'title.min' => 'Il campo titolo deve avere minimo :min caratteri',
+                'image.required' => 'Il campo image è obbligatorio',
+                'image.max' => 'Il campo image deve avere al massimo :max caratteri',
+                'image.min' => 'Il campo image deve avere minimo :min caratteri',
+                'type.required' => 'Il campo type è obbligatorio',
+                'type.max' => 'Il campo type deve avere al massimo :max caratteri',
+                'type.min' => 'Il campo type deve avere minimo :min caratteri',
+            ]
+        );
+
         $data = $request->all();
 
         $newComic = new Comic();
@@ -99,6 +119,25 @@ class ComicController extends Controller
         //$comic = Comic::find($id);
         $comic = Comic::find($id);
 
+        $request->validate(
+            [
+                'title' => 'required|max:50|min:5',
+                'image' => 'required|max:255|min:10',
+                'type' => 'required|max:25|min:3',
+            ],
+            [
+                'title.required' => 'Il campo titolo è obbligatorio',
+                'title.max' => 'Il campo titolo deve avere al massimo :max caratteri',
+                'title.min' => 'Il campo titolo deve avere minimo :min caratteri',
+                'image.required' => 'Il campo image è obbligatorio',
+                'image.max' => 'Il campo image deve avere al massimo :max caratteri',
+                'image.min' => 'Il campo image deve avere minimo :min caratteri',
+                'type.required' => 'Il campo type è obbligatorio',
+                'type.max' => 'Il campo type deve avere al massimo :max caratteri',
+                'type.min' => 'Il campo type deve avere minimo :min caratteri',
+            ]
+        );
+
         $data = $request->all();
         
         $data['slug'] = Str::slug($data['title'], '-');
@@ -121,6 +160,6 @@ class ComicController extends Controller
         
         $comic->delete();
 
-        return redirect()->route('Comics.index');
+        return redirect()->route('Comics.index')->with('prodotto_cancellato', "Il Comic $comic->title è stato cancellato correttamente");
     }
 }

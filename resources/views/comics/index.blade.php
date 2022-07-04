@@ -4,6 +4,12 @@
 
   <div class="container">
     <h1>comics</h1>
+
+    @if (session('prodotto_cancellato'))
+      <div class="alert alert-success">
+        {{ session('prodotto_cancellato') }}
+      </div>
+    @endif
     {{-- @dump($comics); --}}
     <table class="table">
       <thead>
@@ -24,7 +30,8 @@
               <a href="{{ route('Comics.show', $comic) }}" class="btn btn-success">Show</a>
               <a href="{{ route('Comics.edit', $comic) }}" class="btn btn-primary">Edit</a>
 
-              <form class="d-inline" action="{{ route('Comics.destroy', $comic) }}" method="POST">
+              <form class="d-inline" action="{{ route('Comics.destroy', $comic) }}" method="POST"
+              onsubmit="return confirm('Confermi di voler eliminare: {{ $comic->title }} ?')">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Delete</button>
